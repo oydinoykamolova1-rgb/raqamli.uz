@@ -8,11 +8,14 @@ import { Footer } from "@/components/Footer";
 const outfit = Outfit({
   variable: "--font-outfit",
   subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700", "800", "900"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
   title: "Raqamly | Sirdaryo IT Raqamlashtirish Kompaniyasi",
-  description: "Sirdaryo viloyatidagi eng ishonchli biznes raqamlashtirish va veb-saytlar yaratish xizmatlari.",
+  description: "Sirdaryo viloyatidagi eng ishonchli biznes raqamlashtirish, veb-saytlar va Telegram botlar yaratish xizmatlari.",
+  keywords: "IT kompaniya, veb-sayt, Telegram bot, CRM, ERP, Sirdaryo, Guliston, raqamlashtirish",
 };
 
 export default function RootLayout({
@@ -23,7 +26,7 @@ export default function RootLayout({
   return (
     <html lang="uz" suppressHydrationWarning>
       <body className={`${outfit.variable} font-sans min-h-full flex flex-col antialiased`}>
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
           <Navbar />
           {children}
           <Footer />

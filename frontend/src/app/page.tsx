@@ -118,7 +118,7 @@ export default function Home() {
               <div className="absolute inset-0 bg-gradient-to-br from-violet-600/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
               <div className="grid lg:grid-cols-2 gap-0">
                 <div className="relative min-h-[350px] overflow-hidden bg-zinc-800">
-                  <Image src="/portfolio-crm.png" alt="CRM/ERP tizim" fill className="object-cover group-hover:scale-105 transition-transform duration-700" />
+                  <Image src="/portfolio-crm.png" alt="CRM/ERP tizim" fill sizes="(max-width: 1024px) 100vw, 50vw" className="object-cover group-hover:scale-105 transition-transform duration-700" />
                   <div className="absolute inset-0 bg-gradient-to-r from-transparent to-zinc-900/50" />
                   <span className="absolute top-6 left-6 inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-bold bg-violet-500 text-white">
                     ⭐ Premium
@@ -160,7 +160,7 @@ export default function Home() {
               <div className="absolute inset-0 bg-gradient-to-bl from-cyan-600/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
               <div className="grid lg:grid-cols-2 gap-0">
                 <div className="relative min-h-[350px] overflow-hidden bg-zinc-800 lg:order-2">
-                  <Image src="/portfolio-bot.png" alt="Telegram bot" fill className="object-cover group-hover:scale-105 transition-transform duration-700" />
+                  <Image src="/portfolio-bot.png" alt="Telegram bot" fill sizes="(max-width: 1024px) 100vw, 50vw" className="object-cover group-hover:scale-105 transition-transform duration-700" />
                   <div className="absolute inset-0 bg-gradient-to-l from-transparent to-zinc-900/50" />
                   <span className="absolute top-6 left-6 inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-bold bg-cyan-500 text-white">
                     ⚡ Tezkor
@@ -202,7 +202,7 @@ export default function Home() {
               <div className="absolute inset-0 bg-gradient-to-br from-pink-600/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
               <div className="grid lg:grid-cols-2 gap-0">
                 <div className="relative min-h-[350px] overflow-hidden bg-zinc-800">
-                  <Image src="/portfolio-web.png" alt="Veb-sayt" fill className="object-cover group-hover:scale-105 transition-transform duration-700" />
+                  <Image src="/portfolio-web.png" alt="Veb-sayt" fill sizes="(max-width: 1024px) 100vw, 50vw" className="object-cover group-hover:scale-105 transition-transform duration-700" />
                   <div className="absolute inset-0 bg-gradient-to-r from-transparent to-zinc-900/50" />
                   <span className="absolute top-6 left-6 inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-bold bg-gradient-to-r from-pink-500 to-orange-400 text-white">
                     🎨 Design
@@ -263,7 +263,7 @@ export default function Home() {
             ].map((item, i) => (
               <div key={i} className="group relative rounded-2xl overflow-hidden border border-white/8 bg-zinc-900 card-lift cursor-pointer">
                 <div className="relative h-52 overflow-hidden">
-                  <Image src={item.img} alt={item.title} fill className="object-cover group-hover:scale-110 transition-transform duration-500" />
+                  <Image src={item.img} alt={item.title} fill sizes="(max-width: 768px) 100vw, 33vw" className="object-cover group-hover:scale-110 transition-transform duration-500" />
                   <div className="absolute inset-0 bg-gradient-to-t from-zinc-900 via-zinc-900/20 to-transparent" />
                   <span className={`absolute top-4 left-4 text-xs font-bold px-3 py-1 rounded-full ${
                     item.color === 'violet' ? 'bg-violet-500/90' :
