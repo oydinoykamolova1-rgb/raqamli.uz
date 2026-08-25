@@ -9,20 +9,30 @@ export class AppService {
   constructor(private prisma: PrismaService) {}
 
   getHello(): string {
-    return 'Hello World!';
+    return 'Raqamly API ishlayapti! 🚀';
   }
 
-  async scheduleConsultation(date: string) {
+  async scheduleConsultation(date: string, name?: string, phone?: string) {
     const consultation = await this.prisma.consultation.create({
-      data: { date }
+      data: {
+        date,
+        name: name || '',
+        phone: phone || '',
+      },
     });
-    this.logger.log(`Yangi konsultatsiya qo'shildi (ID: ${consultation.id}): ${date}`);
+    this.logger.log(`Yangi konsultatsiya qo'shildi (ID: ${consultation.id}): ${name || 'Noma\'lum'} — ${date}`);
 
     // Telegram botga xabar yuborish
     const token = process.env.TELEGRAM_BOT_TOKEN;
     const chatId = process.env.TELEGRAM_CHAT_ID;
     if (token && chatId && token !== 'YOUR_BOT_TOKEN') {
-      const message = `🔔 *Yangi Konsultatsiya!*\n\n📅 Sana: ${date}\n🆔 ID: ${consultation.id}\n\nIltimos, mijoz bilan bog'laning!`;
+      const message =
+        `🔔 <b>Yangi Konsultatsiya So'rovi!</b>\n\n` +
+        `👤 Ism: ${name || 'Kiritilmagan'}\n` +
+        `📞 Telefon: ${phone || 'Kiritilmagan'}\n` +
+        `📅 Sana: ${date}\n` +
+        `🆔 ID: #${consultation.id}\n\n` +
+        `Iltimos, mijoz bilan tez orada bog'laning!`;
       try {
         await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
           method: 'POST',
@@ -30,7 +40,7 @@ export class AppService {
           body: JSON.stringify({
             chat_id: chatId,
             text: message,
-            parse_mode: 'Markdown',
+            parse_mode: 'HTML',
           }),
         });
       } catch (err) {
@@ -42,19 +52,29 @@ export class AppService {
   }
 
   async getConsultations() {
-    // @ts-ignore
     return this.prisma.consultation.findMany({
-      orderBy: { createdAt: 'desc' }
+      orderBy: { createdAt: 'desc' },
     });
   }
 
-  @Cron('*/10 * * * * *')
+  async updateConsultation(id: number, status: string) {
+    return this.prisma.consultation.update({
+      where: { id },
+      data: { status },
+    });
+  }
+
+  async deleteConsultation(id: number) {
+    await this.prisma.consultation.delete({ where: { id } });
+    return { success: true, message: "O'chirildi" };
+  }
+
+  @Cron('*/10 * * * *')
   async handleCron() {
     const today = new Date().toISOString().split('T')[0];
-    
-    // @ts-ignore
+
     const todayAppointments = await this.prisma.consultation.findMany({
-      where: { date: today, status: 'PENDING' }
+      where: { date: today, status: 'PENDING' },
     });
 
     if (todayAppointments.length > 0) {

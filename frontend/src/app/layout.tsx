@@ -1,21 +1,34 @@
 import type { Metadata } from "next";
-import { Outfit } from "next/font/google";
+import { Space_Grotesk, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
-import { ThemeProvider } from "./theme-provider";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 
-const outfit = Outfit({
-  variable: "--font-outfit",
+const spaceGrotesk = Space_Grotesk({
+  variable: "--font-space",
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700", "800", "900"],
+  weight: ["400", "500", "600", "700"],
+  display: "swap",
+});
+
+const plusJakarta = Plus_Jakarta_Sans({
+  variable: "--font-sans",
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700", "800"],
   display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "Raqamly | Sirdaryo IT Raqamlashtirish Kompaniyasi",
-  description: "Sirdaryo viloyatidagi eng ishonchli biznes raqamlashtirish, veb-saytlar va Telegram botlar yaratish xizmatlari.",
-  keywords: "IT kompaniya, veb-sayt, Telegram bot, CRM, ERP, Sirdaryo, Guliston, raqamlashtirish",
+  title: "Raqamly | Fantastik IT & Raqamlashtirish Kompaniyasi",
+  description: "Sirdaryo va O'zbekiston bo'ylab eng innovatsion veb-saytlar, Telegram botlar, ERP va CRM tizimlarni yaratish.",
+  keywords: "IT kompaniya, veb sayt yaratish, Telegram bot, ERP tizim, CRM, Sirdaryo, Raqamly, Guliston, Sun'iy intellekt",
+  openGraph: {
+    title: "Raqamly | Fantastik IT Yechimlar",
+    description: "Biznesingizni zamonaviy texnologiyalar bilan yangi bosqichga olib chiqing.",
+    type: "website",
+    locale: "uz_UZ",
+    url: "https://raqamly.uz",
+  },
 };
 
 export default function RootLayout({
@@ -24,13 +37,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="uz" suppressHydrationWarning>
-      <body className={`${outfit.variable} font-sans min-h-full flex flex-col antialiased`}>
-        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
-          <Navbar />
+    <html lang="uz" className="dark scroll-smooth">
+      <body className={`${spaceGrotesk.variable} ${plusJakarta.variable} font-sans bg-[#030712] text-white min-h-screen flex flex-col antialiased selection:bg-violet-500/30 selection:text-white`}>
+        <Navbar />
+        <main className="flex-1">
           {children}
-          <Footer />
-        </ThemeProvider>
+        </main>
+        <Footer />
       </body>
     </html>
   );

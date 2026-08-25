@@ -3,12 +3,14 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "sqlite"
   url      = env("DATABASE_URL")
 }
 
 model Consultation {
   id        Int      @id @default(autoincrement())
+  name      String   @default("")
+  phone     String   @default("")
   date      String
   status    String   @default("PENDING")
   createdAt DateTime @default(now())
