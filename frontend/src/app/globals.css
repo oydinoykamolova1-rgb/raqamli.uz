@@ -1,0 +1,48 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #0ea5e9; /* Sky 500 */
+  --color-primary-hover: #0284c7; /* Sky 600 */
+  
+  /* Clean light mode: Light blue */
+  --color-background-light: #f0f9ff; /* Sky 50 */
+  --color-foreground-light: #082f49; /* Sky 900 */
+  
+  /* Clean dark mode: Dark blue */
+  --color-background-dark: #082f49; /* Sky 900 */
+  --color-foreground-dark: #f0f9ff; /* Sky 50 */
+}
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --background: var(--color-background-light);
+  --foreground: var(--color-foreground-light);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: var(--color-background-dark);
+    --foreground: var(--color-foreground-dark);
+  }
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-outfit), Arial, Helvetica, sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Glassmorphism utilities */
+.glass {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.dark .glass {
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
