@@ -1,7 +1,7 @@
 'use client';
 import { motion } from 'framer-motion';
 import { MonitorSmartphone, PenTool, TrendingUp, ShieldCheck, ArrowRight } from 'lucide-react';
-import Link from 'next/link';
+import { ConsultationButton } from '@/components/ConsultationButton';
 
 const services = [
   {
@@ -32,7 +32,7 @@ const services = [
 
 export default function ServicesPage() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-50/50 to-white pt-32 pb-20">
+    <div className="min-h-screen bg-neutral-50/50 dark:bg-neutral-950 pt-32 pb-20">
       <div className="container mx-auto px-6">
         
         {/* Header Section */}
@@ -40,16 +40,16 @@ export default function ServicesPage() {
           <motion.h1 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-4xl md:text-5xl font-extrabold text-blue-950 mb-6 tracking-tight"
+            className="text-4xl md:text-5xl font-extrabold text-neutral-900 dark:text-white mb-6 tracking-tight"
           >
             Sizning biznesingiz uchun <br className="hidden md:block" />
-            <span className="text-blue-600">Premium Xizmatlar</span>
+            <span className="text-primary">Premium Xizmatlar</span>
           </motion.h1>
           <motion.p 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="text-lg text-blue-800/70"
+            className="text-lg text-neutral-600 dark:text-neutral-400"
           >
             Biz nafaqat kod yozamiz, balki sizning g'oyangizni daromad keltiradigan raqamli mahsulotga aylantiramiz.
           </motion.p>
@@ -64,24 +64,21 @@ export default function ServicesPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: service.delay, duration: 0.5 }}
               whileHover={{ y: -5, scale: 1.02 }}
-              className="group bg-white p-8 rounded-3xl shadow-xl shadow-blue-900/5 border border-blue-100/50 hover:shadow-2xl hover:shadow-blue-900/10 transition-all duration-300"
+              className="group bg-white dark:bg-neutral-900 p-8 rounded-3xl shadow-xl shadow-black/5 dark:shadow-primary/5 border border-neutral-100 dark:border-neutral-800 transition-all duration-300"
             >
-              <div className="w-20 h-20 bg-blue-50 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-blue-600 transition-colors duration-300">
+              <div className="w-20 h-20 bg-primary/10 dark:bg-primary/20 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-primary transition-colors duration-300">
                 <div className="group-hover:text-white transition-colors duration-300">
                   {service.icon}
                 </div>
               </div>
-              <h3 className="text-2xl font-bold text-blue-950 mb-4">{service.title}</h3>
-              <p className="text-blue-800/70 leading-relaxed mb-8">
+              <h3 className="text-2xl font-bold text-neutral-900 dark:text-white mb-4">{service.title}</h3>
+              <p className="text-neutral-600 dark:text-neutral-400 leading-relaxed mb-8">
                 {service.description}
               </p>
-              <Link 
-                href="/?consultation=true" 
-                className="inline-flex items-center font-semibold text-blue-600 group-hover:text-blue-700 transition-colors"
-              >
-                Batafsil ma'lumot 
-                <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
-              </Link>
+              <ConsultationButton 
+                text="Batafsil ma'lumot" 
+                className="bg-transparent text-primary hover:text-primary-hover px-0 font-semibold h-auto"
+              />
             </motion.div>
           ))}
         </div>
@@ -91,23 +88,23 @@ export default function ServicesPage() {
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.6 }}
-          className="mt-32 max-w-4xl mx-auto bg-gradient-to-br from-blue-950 to-blue-900 rounded-[3rem] p-12 text-center text-white shadow-2xl relative overflow-hidden"
+          className="mt-32 max-w-4xl mx-auto bg-gradient-to-br from-neutral-900 to-black dark:from-primary/20 dark:to-primary/5 rounded-[3rem] p-12 text-center text-white shadow-2xl relative overflow-hidden"
         >
-          <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500 rounded-full blur-[100px] opacity-30 -mr-20 -mt-20"></div>
-          <div className="absolute bottom-0 left-0 w-64 h-64 bg-cyan-500 rounded-full blur-[100px] opacity-30 -ml-20 -mb-20"></div>
+          <div className="absolute top-0 right-0 w-64 h-64 bg-primary/30 rounded-full blur-[100px] -mr-20 -mt-20"></div>
+          <div className="absolute bottom-0 left-0 w-64 h-64 bg-blue-500/30 rounded-full blur-[100px] -ml-20 -mb-20"></div>
           
-          <h2 className="text-3xl md:text-4xl font-bold mb-6 relative z-10">
+          <h2 className="text-3xl md:text-4xl font-bold mb-6 relative z-10 text-white">
             Loyihangizni boshlashga tayyormisiz?
           </h2>
-          <p className="text-blue-100 text-lg mb-10 max-w-2xl mx-auto relative z-10">
+          <p className="text-neutral-300 dark:text-neutral-400 text-lg mb-10 max-w-2xl mx-auto relative z-10">
             Bepul konsultatsiya oling va ekspertlarimiz sizga qanday qilib eng maqbul yechimni topishda yordam berishini bilib oling.
           </p>
-          <Link 
-            href="/?consultation=true"
-            className="inline-block bg-white text-blue-950 px-8 py-4 rounded-full font-bold text-lg hover:bg-blue-50 hover:scale-105 transition-all relative z-10 shadow-lg"
-          >
-            Konsultatsiyaga yozilish
-          </Link>
+          <div className="relative z-10 flex justify-center">
+            <ConsultationButton 
+              text="Konsultatsiyaga yozilish"
+              className="bg-primary text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-primary-hover shadow-lg"
+            />
+          </div>
         </motion.div>
       </div>
     </div>
