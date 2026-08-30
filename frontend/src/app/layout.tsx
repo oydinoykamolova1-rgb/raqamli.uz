@@ -1,34 +1,96 @@
 import type { Metadata } from "next";
-import { Space_Grotesk, Plus_Jakarta_Sans } from "next/font/google";
+import { Outfit, Inter, Fira_Code } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 
-const spaceGrotesk = Space_Grotesk({
-  variable: "--font-space",
+const outfit = Outfit({
+  variable: "--font-display",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  weight: ["400", "500", "600", "700", "800", "900"],
   display: "swap",
 });
 
-const plusJakarta = Plus_Jakarta_Sans({
+const inter = Inter({
   variable: "--font-sans",
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700", "800"],
+  weight: ["300", "400", "500", "600", "700"],
+  display: "swap",
+});
+
+const firaCode = Fira_Code({
+  variable: "--font-mono",
+  subsets: ["latin"],
+  weight: ["400", "500", "700"],
   display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "Raqamly | Fantastik IT & Raqamlashtirish Kompaniyasi",
-  description: "Sirdaryo va O'zbekiston bo'ylab eng innovatsion veb-saytlar, Telegram botlar, ERP va CRM tizimlarni yaratish.",
-  keywords: "IT kompaniya, veb sayt yaratish, Telegram bot, ERP tizim, CRM, Sirdaryo, Raqamly, Guliston, Sun'iy intellekt",
+  title: "Raqamly | Sirdaryo IT Kompaniyasi — Veb-sayt, Bot, CRM",
+  description:
+    "Sirdaryo va O'zbekiston bo'ylab yuqori sifatli veb-saytlar, AI Telegram botlar, ERP va CRM boshqaruv tizimlarini professional darajada yaratamiz. Bepul konsultatsiya oling!",
+  keywords:
+    "IT kompaniya, veb sayt yaratish, Telegram bot, ERP tizim, CRM, Sirdaryo, Raqamly, Guliston, Sun'iy intellekt, Next.js, raqamlashtirish",
   openGraph: {
-    title: "Raqamly | Fantastik IT Yechimlar",
-    description: "Biznesingizni zamonaviy texnologiyalar bilan yangi bosqichga olib chiqing.",
+    title: "Raqamly | Sirdaryo №1 IT Studio",
+    description:
+      "Biznesingizni zamonaviy texnologiyalar bilan yangi bosqichga olib chiqing. Veb-sayt, Bot, CRM — bitta jamoadan.",
     type: "website",
     locale: "uz_UZ",
     url: "https://raqamly.uz",
+    siteName: "Raqamly",
+    images: [
+      {
+        url: "https://raqamly.uz/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Raqamly — Sirdaryodagi IT Studio",
+      },
+    ],
   },
+  twitter: {
+    card: "summary_large_image",
+    title: "Raqamly | Sirdaryodagi #1 IT Studio",
+    description:
+      "Veb-sayt, AI Telegram bot, CRM/ERP — bitta professional jamoadan.",
+    images: ["https://raqamly.uz/og-image.png"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+  alternates: {
+    canonical: "https://raqamly.uz",
+  },
+};
+
+// JSON-LD LocalBusiness Schema
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  name: "Raqamly",
+  description:
+    "Sirdaryo viloyatidagi IT kompaniya. Veb-saytlar, Telegram botlar, CRM va ERP tizimlarini ishlab chiqamiz.",
+  url: "https://raqamly.uz",
+  telephone: "+998901234567",
+  email: "info@raqamly.uz",
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: "Guliston",
+    addressRegion: "Sirdaryo viloyati",
+    addressCountry: "UZ",
+  },
+  geo: {
+    "@type": "GeoCoordinates",
+    latitude: "40.489444",
+    longitude: "68.783333",
+  },
+  openingHours: "Mo-Su 09:00-22:00",
+  priceRange: "$$",
+  sameAs: [
+    "https://t.me/raqamli_uz",
+    "https://t.me/raqamli_uzbot",
+  ],
 };
 
 export default function RootLayout({
@@ -37,12 +99,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="uz" className="dark scroll-smooth">
-      <body className={`${spaceGrotesk.variable} ${plusJakarta.variable} font-sans bg-[#030712] text-white min-h-screen flex flex-col antialiased selection:bg-violet-500/30 selection:text-white`}>
+    <html lang="uz" className="scroll-smooth">
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      </head>
+      <body
+        className={`${outfit.variable} ${inter.variable} ${firaCode.variable} font-sans bg-[#0F2A4A] text-[#EDF3F5] min-h-screen flex flex-col antialiased`}
+      >
         <Navbar />
-        <main className="flex-1">
-          {children}
-        </main>
+        <main className="flex-1">{children}</main>
         <Footer />
       </body>
     </html>

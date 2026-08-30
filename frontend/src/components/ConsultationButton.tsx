@@ -4,7 +4,7 @@ import * as React from "react";
 import { useState } from "react";
 import { X, Calendar, ArrowRight, CheckCircle2, User, Phone, Sparkles, AlertCircle } from "lucide-react";
 
-export function ConsultationButton({ text = "Konsultatsiya olish", className = "" }: { text?: string, className?: string }) {
+export function ConsultationButton({ text = "Konsultatsiya olish", className = "", id, style }: { text?: string, className?: string, id?: string, style?: React.CSSProperties }) {
   const [isOpen, setIsOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
@@ -52,7 +52,9 @@ export function ConsultationButton({ text = "Konsultatsiya olish", className = "
   return (
     <>
       <button 
+        id={id}
         onClick={() => setIsOpen(true)}
+        style={style}
         className={`inline-flex items-center justify-center gap-2 cursor-pointer transition-all ${className}`}
       >
         {text}
@@ -94,17 +96,17 @@ export function ConsultationButton({ text = "Konsultatsiya olish", className = "
               <div>
                 <div className="flex items-center gap-2 mb-2">
                   <Sparkles className="w-4 h-4 text-violet-400" />
-                  <span className="text-xs uppercase font-bold tracking-widest text-violet-400 font-space">Bepul Maslahat va Audit</span>
+                  <span className="text-sm uppercase font-bold tracking-widest text-violet-400 font-space">Bepul Maslahat va Audit</span>
                 </div>
-                <h2 className="text-2xl lg:text-3xl font-space font-bold mb-2 text-white">Raqamly bilan bog&apos;laning</h2>
-                <p className="text-gray-400 text-xs sm:text-sm mb-6 leading-relaxed">
+                <h2 className="text-3xl lg:text-4xl font-space font-bold mb-3 text-white">Raqamly bilan bog&apos;laning</h2>
+                <p className="text-gray-300 text-sm sm:text-base mb-6 leading-relaxed">
                   Formani to&apos;ldiring. Biz loyihangizni tahlil qilib, eng optimal yechimni taqdim etamiz.
                 </p>
 
                 <form onSubmit={handleSubmit} className="space-y-4">
                   {/* Name Input */}
                   <div>
-                    <label className="block text-xs font-semibold text-gray-300 uppercase tracking-wider mb-1.5 font-space">
+                    <label className="block text-sm font-semibold text-gray-200 uppercase tracking-wider mb-2 font-space">
                       Ismingiz va Familiyangiz
                     </label>
                     <div className="relative">
@@ -114,7 +116,7 @@ export function ConsultationButton({ text = "Konsultatsiya olish", className = "
                         placeholder="Masalan: Alisher Navoiy"
                         value={name}
                         onChange={(e) => setName(e.target.value)}
-                        className="w-full h-11 pl-11 pr-4 rounded-xl border border-white/15 bg-slate-950/80 text-white placeholder-gray-500 focus:outline-none focus:border-violet-500 focus:ring-1 focus:ring-violet-500 transition-all text-sm"
+                        className="w-full h-13 pl-11 pr-4 rounded-xl border border-white/15 bg-slate-950/80 text-white placeholder-gray-400 focus:outline-none focus:border-violet-500 focus:ring-1 focus:ring-violet-500 transition-all text-base py-3"
                         required
                       />
                     </div>
@@ -122,7 +124,7 @@ export function ConsultationButton({ text = "Konsultatsiya olish", className = "
 
                   {/* Phone Input */}
                   <div>
-                    <label className="block text-xs font-semibold text-gray-300 uppercase tracking-wider mb-1.5 font-space">
+                    <label className="block text-sm font-semibold text-gray-200 uppercase tracking-wider mb-2 font-space">
                       Telefon Raqamingiz
                     </label>
                     <div className="relative">
@@ -132,7 +134,7 @@ export function ConsultationButton({ text = "Konsultatsiya olish", className = "
                         placeholder="+998 90 123 45 67"
                         value={phone}
                         onChange={(e) => setPhone(e.target.value)}
-                        className="w-full h-11 pl-11 pr-4 rounded-xl border border-white/15 bg-slate-950/80 text-white placeholder-gray-500 focus:outline-none focus:border-violet-500 focus:ring-1 focus:ring-violet-500 transition-all text-sm"
+                        className="w-full h-13 pl-11 pr-4 rounded-xl border border-white/15 bg-slate-950/80 text-white placeholder-gray-400 focus:outline-none focus:border-violet-500 focus:ring-1 focus:ring-violet-500 transition-all text-base py-3"
                         required
                       />
                     </div>
@@ -140,7 +142,7 @@ export function ConsultationButton({ text = "Konsultatsiya olish", className = "
 
                   {/* Date Input */}
                   <div>
-                    <label className="block text-xs font-semibold text-gray-300 uppercase tracking-wider mb-1.5 font-space">
+                    <label className="block text-sm font-semibold text-gray-200 uppercase tracking-wider mb-2 font-space">
                       Qulay uchrashuv sanasi
                     </label>
                     <div className="relative">
@@ -149,7 +151,7 @@ export function ConsultationButton({ text = "Konsultatsiya olish", className = "
                         type="date"
                         value={date}
                         onChange={(e) => setDate(e.target.value)}
-                        className="w-full h-11 pl-11 pr-4 rounded-xl border border-white/15 bg-slate-950/80 text-white focus:outline-none focus:border-violet-500 focus:ring-1 focus:ring-violet-500 transition-all text-sm"
+                        className="w-full h-13 pl-11 pr-4 rounded-xl border border-white/15 bg-slate-950/80 text-white focus:outline-none focus:border-violet-500 focus:ring-1 focus:ring-violet-500 transition-all text-base py-3"
                         required
                       />
                     </div>
@@ -165,10 +167,10 @@ export function ConsultationButton({ text = "Konsultatsiya olish", className = "
                   <button 
                     type="submit" 
                     disabled={loading}
-                    className="w-full h-12 mt-2 rounded-xl bg-gradient-to-r from-violet-600 via-pink-600 to-violet-700 hover:from-violet-500 hover:to-pink-500 text-white font-space font-bold text-sm flex items-center justify-center gap-2 transition-all shadow-[0_0_20px_rgba(139,92,246,0.35)] disabled:opacity-50 cursor-pointer"
+                    className="w-full h-14 mt-3 rounded-xl bg-gradient-to-r from-violet-600 via-pink-600 to-violet-700 hover:from-violet-500 hover:to-pink-500 text-white font-space font-bold text-lg flex items-center justify-center gap-2 transition-all shadow-[0_0_20px_rgba(139,92,246,0.35)] disabled:opacity-50 cursor-pointer"
                   >
                     {loading ? "Yuborilmoqda..." : "So'rovni Yuborish 🚀"}
-                    {!loading && <ArrowRight className="w-4 h-4" />}
+                    {!loading && <ArrowRight className="w-5 h-5" />}
                   </button>
                 </form>
               </div>

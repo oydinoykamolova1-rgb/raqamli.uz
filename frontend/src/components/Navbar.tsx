@@ -2,7 +2,7 @@
 
 import { ConsultationButton } from "./ConsultationButton";
 import Link from "next/link";
-import { Bot, Menu, X, Sparkles } from "lucide-react";
+import { Bot, Menu, X } from "lucide-react";
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 
@@ -18,114 +18,116 @@ export function Navbar() {
   }, []);
 
   // Hide main site navbar on Admin routes
-  if (pathname?.startsWith("/admin")) {
-    return null;
-  }
+  if (pathname?.startsWith("/admin")) return null;
 
   const navItems = [
-    { href: "/", label: "Bosh sahifa" },
-    { href: "/services", label: "Xizmatlar" },
+    { href: "/#services",  label: "Xizmatlar" },
     { href: "/#portfolio", label: "Portfolio" },
-    { href: "/#about", label: "Biz haqimizda" },
-    { href: "/#process", label: "Jarayon" },
+    { href: "/#about",     label: "Nega Biz?" },
+    { href: "/#calculator",label: "Kalkulyator" },
+    { href: "/#faq",       label: "FAQ" },
   ];
 
   return (
-    <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-      scrolled
-        ? "py-3 bg-[#030712]/85 backdrop-blur-2xl border-b border-violet-500/15 shadow-[0_10px_30px_rgba(0,0,0,0.8)]"
-        : "py-6 bg-transparent"
-    }`}>
-      <div className="container mx-auto px-4 lg:px-8 flex items-center justify-between">
-        
-        {/* Brand Logo */}
-        <Link href="/" className="flex items-center gap-3 group">
-          <div className="relative">
-            <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-violet-600 via-pink-600 to-cyan-400 p-[1.5px] transition-transform duration-300 group-hover:scale-105 shadow-[0_0_20px_rgba(139,92,246,0.4)]">
-              <div className="w-full h-full bg-[#070b16] rounded-[14px] flex items-center justify-center">
-                <Sparkles className="w-5 h-5 text-violet-400 group-hover:rotate-45 transition-transform duration-500" />
-              </div>
-            </div>
-            <div className="absolute -inset-1 rounded-2xl bg-violet-600/30 blur-md opacity-0 group-hover:opacity-100 transition-opacity -z-10" />
-          </div>
-          <div className="flex flex-col">
-            <span className="font-space font-bold text-2xl tracking-tight text-white flex items-center gap-1">
-              Raqam<span className="gradient-text-cyber">ly</span>
+    <header
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        scrolled
+          ? "py-3 bg-[#0A1E35]/95 backdrop-blur-2xl border-b border-[#5FD8E8]/15 shadow-[0_8px_40px_rgba(0,0,0,0.6)]"
+          : "py-5 bg-[#0F2A4A]/80 backdrop-blur-lg border-b border-[#5FD8E8]/8"
+      }`}
+    >
+      <div className="container mx-auto px-4 lg:px-12 flex items-center justify-between">
+
+        {/* Brand Logo — "R" doirada */}
+        <Link href="/" id="navbar-logo" className="flex items-center gap-3 group">
+          <div className="relative w-10 h-10 rounded-full border border-[#5FD8E8]/40 flex items-center justify-center bg-[#0F2A4A] group-hover:border-[#5FD8E8] transition-colors">
+            <span className="font-display font-black text-xl text-[#5FD8E8] leading-none">
+              R
             </span>
-            <span className="text-[10px] uppercase tracking-widest text-violet-400/80 font-semibold -mt-1 font-space">
-              Digital Next
+            {/* Outer ring glow */}
+            <div className="absolute inset-0 rounded-full bg-[#5FD8E8]/0 group-hover:bg-[#5FD8E8]/8 transition-colors" />
+          </div>
+          <div>
+            <span className="font-display font-black text-xl text-[#EDF3F5] tracking-tight leading-none block">
+              Raqam<span className="text-[#5FD8E8]">ly</span>
+            </span>
+            <span className="font-mono text-[9px] uppercase tracking-[0.2em] text-[#8FA6BC] -mt-0.5 block">
+              SIRDARYO IT
             </span>
           </div>
         </Link>
 
-        {/* Desktop Nav Items */}
-        <nav className="hidden md:flex items-center gap-1 px-4 py-2 rounded-full glass-panel border border-white/10 shadow-inner">
+        {/* Desktop Nav — monospace links */}
+        <nav className="hidden md:flex items-center gap-1">
           {navItems.map((item) => (
             <Link
               key={item.href}
               href={item.href}
-              className="text-sm font-medium text-gray-300 hover:text-white px-4 py-2 rounded-full hover:bg-violet-500/10 transition-all duration-200 relative group"
+              className="font-mono text-xs text-[#8FA6BC] hover:text-[#5FD8E8] px-4 py-2.5 rounded-sm hover:bg-[#5FD8E8]/5 border border-transparent hover:border-[#5FD8E8]/15 transition-all duration-200 tracking-wide uppercase"
             >
               {item.label}
-              <span className="absolute bottom-1 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-gradient-to-r from-violet-500 to-pink-500 group-hover:w-1/2 transition-all duration-300 rounded-full" />
             </Link>
           ))}
         </nav>
 
         {/* Action Buttons */}
         <div className="flex items-center gap-3">
+          {/* Telegram Bot link */}
           <Link
             href="https://t.me/raqamli_uzbot"
+            id="navbar-telegram-link"
             target="_blank"
             rel="noopener noreferrer"
-            className="hidden sm:inline-flex items-center gap-2 text-xs font-semibold px-4 py-2.5 rounded-xl bg-violet-950/40 text-cyan-300 border border-cyan-500/30 hover:border-cyan-400 hover:shadow-[0_0_15px_rgba(6,182,212,0.3)] transition-all group font-space"
+            className="hidden sm:inline-flex items-center gap-2 text-xs font-mono px-4 py-2.5 rounded-sm bg-[#5FD8E8]/8 text-[#5FD8E8] border border-[#5FD8E8]/25 hover:border-[#5FD8E8]/50 hover:bg-[#5FD8E8]/15 transition-all"
           >
-            <Bot className="w-4 h-4 text-cyan-400 group-hover:rotate-12 transition-transform duration-300" />
+            <Bot className="w-3.5 h-3.5" />
             <span>@raqamli_uzbot</span>
           </Link>
 
           <ConsultationButton
             text="Konsultatsiya"
-            className="hidden md:flex h-11 px-6 bg-gradient-to-r from-violet-600 via-pink-600 to-violet-700 hover:from-violet-500 hover:to-pink-500 text-white font-bold rounded-xl shadow-[0_0_20px_rgba(139,92,246,0.4)] transition-all hover:scale-105 hover:shadow-[0_0_30px_rgba(236,72,153,0.5)] text-sm font-space"
+            id="navbar-cta"
+            className="hidden md:flex h-10 px-6 bg-[#FF6B35] hover:bg-[#E85A24] text-white font-display font-bold rounded-sm shadow-[0_0_20px_rgba(255,107,53,0.3)] transition-all hover:scale-105 text-sm"
           />
 
           {/* Mobile Menu Trigger */}
           <button
-            className="md:hidden w-11 h-11 rounded-xl bg-slate-900/80 border border-white/10 flex items-center justify-center text-white focus:outline-none hover:border-violet-500/50 transition-colors"
+            id="navbar-mobile-toggle"
+            className="md:hidden w-10 h-10 rounded-sm bg-[#0A1E35] border border-[#5FD8E8]/20 flex items-center justify-center text-[#EDF3F5] focus:outline-none hover:border-[#5FD8E8]/50 transition-colors"
             onClick={() => setMobileOpen(!mobileOpen)}
             aria-label="Toggle menu"
           >
-            {mobileOpen ? <X className="w-5 h-5 text-violet-400" /> : <Menu className="w-5 h-5 text-gray-300" />}
+            {mobileOpen ? <X className="w-4 h-4 text-[#5FD8E8]" /> : <Menu className="w-4 h-4 text-[#8FA6BC]" />}
           </button>
         </div>
       </div>
 
-      {/* Mobile Backdrop Dropdown */}
+      {/* Mobile Dropdown */}
       {mobileOpen && (
-        <div className="md:hidden inset-x-0 mt-3 mx-4 p-6 glass-panel-glow rounded-3xl flex flex-col gap-4 border border-violet-500/20 shadow-2xl animate-in fade-in slide-in-from-top-4 duration-300">
+        <div className="md:hidden mx-4 mt-2 p-6 bg-[#0A1E35]/95 backdrop-blur-xl rounded-sm flex flex-col gap-3 border border-[#5FD8E8]/15 shadow-2xl animate-in slide-in-from-top-4 fade-in duration-300">
           {navItems.map((item) => (
             <Link
               key={item.href}
               href={item.href}
               onClick={() => setMobileOpen(false)}
-              className="text-base font-semibold text-gray-200 hover:text-white py-2 px-3 rounded-xl hover:bg-violet-500/10 transition-colors flex items-center justify-between"
+              className="font-mono text-xs text-[#8FA6BC] hover:text-[#5FD8E8] py-3 px-3 rounded-sm hover:bg-[#5FD8E8]/5 border border-transparent hover:border-[#5FD8E8]/15 transition-all flex items-center justify-between uppercase tracking-widest"
             >
               <span>{item.label}</span>
-              <span className="text-violet-400">→</span>
+              <span className="text-[#5FD8E8]/40">→</span>
             </Link>
           ))}
-          <div className="pt-2 border-t border-white/10 flex flex-col gap-3">
+          <div className="pt-3 border-t border-[#5FD8E8]/10 flex flex-col gap-3">
             <Link
               href="https://t.me/raqamli_uzbot"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center justify-center gap-2 text-sm font-semibold py-3 rounded-xl bg-cyan-950/40 text-cyan-300 border border-cyan-500/30 font-space"
+              className="flex items-center justify-center gap-2 text-xs font-mono py-3 rounded-sm bg-[#5FD8E8]/8 text-[#5FD8E8] border border-[#5FD8E8]/20"
             >
-              <Bot className="w-4 h-4" /> Telegram Bot
+              <Bot className="w-3.5 h-3.5" /> Telegram Bot
             </Link>
             <ConsultationButton
-              text="Konsultatsiya Olish"
-              className="h-12 w-full bg-gradient-to-r from-violet-600 to-pink-600 text-white font-bold rounded-xl shadow-lg font-space"
+              text="Bepul Konsultatsiya"
+              className="h-12 w-full bg-[#FF6B35] hover:bg-[#E85A24] text-white font-display font-bold rounded-sm shadow-lg transition-all"
             />
           </div>
         </div>

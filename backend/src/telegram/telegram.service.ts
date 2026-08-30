@@ -9,7 +9,7 @@ export class TelegramService implements OnModuleInit {
   private readonly logger = new Logger(TelegramService.name);
   private bot: Telegraf;
 
-  constructor(private prisma: PrismaService) {}
+  constructor(private prisma: PrismaService) { }
 
   onModuleInit() {
     const token = process.env.TELEGRAM_BOT_TOKEN;
