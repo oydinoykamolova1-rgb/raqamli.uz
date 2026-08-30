@@ -2,23 +2,44 @@
 
 import * as React from "react";
 import { useState } from "react";
-import { X, Calendar, ArrowRight, CheckCircle2, User, Phone, Sparkles, AlertCircle } from "lucide-react";
+import { X, Calendar, ArrowRight, CheckCircle2, User, Phone, Sparkles, AlertCircle, Bot, ShieldCheck } from "lucide-react";
+import { useLanguage } from "@/app/context/LanguageContext";
 
-export function ConsultationButton({ text = "Konsultatsiya olish", className = "", id, style }: { text?: string, className?: string, id?: string, style?: React.CSSProperties }) {
+export function ConsultationButton({
+  text = "Konsultatsiya olish",
+  className = "",
+  id,
+  style,
+}: {
+  text?: string;
+  className?: string;
+  id?: string;
+  style?: React.CSSProperties;
+}) {
+  const { t } = useLanguage();
   const [isOpen, setIsOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
-  
+
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [date, setDate] = useState("");
+  const [honeypot, setHoneypot] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!date) return alert("Iltimos, uchrashuv sanasini tanlang!");
-    if (!name.trim()) return alert("Iltimos, ismingizni kiriting!");
-    if (!phone.trim()) return alert("Iltimos, telefon raqamingizni kiriting!");
-    
+    if (honeypot) {
+      // Spam attempt caught
+      setStatus("success");
+      setIsOpen(false);
+      return;
+    }
+
+    if (!name.trim()) return alert(t("form.error"));
+    if (!phone.trim()) return alert(t("form.error"));
+
+    const submitDate = date || new Date().toISOString().split("T")[0];
+
     setLoading(true);
     setStatus("idle");
     try {
@@ -26,9 +47,9 @@ export function ConsultationButton({ text = "Konsultatsiya olish", className = "
       const res = await fetch(`${apiUrl}/consultation`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, phone, date })
+        body: JSON.stringify({ name, phone, date: submitDate, honeypot }),
       });
-      
+
       if (res.ok) {
         setStatus("success");
         setTimeout(() => {
@@ -51,7 +72,7 @@ export function ConsultationButton({ text = "Konsultatsiya olish", className = "
 
   return (
     <>
-      <button 
+      <button
         id={id}
         onClick={() => setIsOpen(true)}
         style={style}
@@ -61,62 +82,79 @@ export function ConsultationButton({ text = "Konsultatsiya olish", className = "
       </button>
 
       {isOpen && (
-        <div className="fixed inset-0 z-[100] overflow-y-auto bg-black/85 backdrop-blur-md p-4 sm:p-6 flex items-center justify-center min-h-screen">
-          
-          {/* Backdrop Click Dismiss */}
-          <div 
-            className="fixed inset-0 -z-10" 
-            onClick={() => setIsOpen(false)} 
+        <div className="fixed inset-0 z-[100] overflow-y-auto bg-[#040D1A]/85 backdrop-blur-md p-4 sm:p-6 flex items-center justify-center min-h-screen">
+          <div
+            className="fixed inset-0 -z-10"
+            onClick={() => setIsOpen(false)}
           />
 
-          <div className="relative w-full max-w-lg my-auto glass-panel-glow rounded-3xl p-6 lg:p-8 border border-violet-500/30 shadow-[0_0_50px_rgba(139,92,246,0.25)] animate-in zoom-in-95 duration-200 max-h-[92vh] overflow-y-auto">
+          <div className="relative w-full max-w-lg my-auto bg-[#0A1E35] border border-[#5FD8E8]/30 rounded-sm p-6 lg:p-8 shadow-[0_20px_80px_rgba(0,0,0,0.8)] text-[#EDF3F5] font-sans max-h-[92vh] overflow-y-auto">
             
-            {/* Ambient Background Lights */}
-            <div className="absolute -top-20 -left-20 w-48 h-48 bg-violet-600/30 rounded-full blur-3xl pointer-events-none" />
-            <div className="absolute -bottom-20 -right-20 w-48 h-48 bg-pink-600/30 rounded-full blur-3xl pointer-events-none" />
+            {/* Corner Tech Stamp */}
+            <div className="font-mono text-[9px] text-[#5FD8E8]/40 uppercase tracking-widest mb-2">
+              [SYSTEM_FORM // BLUEPRINT CONSULTATION]
+            </div>
 
-            <button 
+            <button
               onClick={() => setIsOpen(false)}
-              className="absolute top-5 right-5 p-2 rounded-full bg-white/10 hover:bg-white/20 text-gray-300 hover:text-white transition-colors z-20 cursor-pointer"
+              className="absolute top-5 right-5 p-2 rounded-xs bg-[#0F2A4A] border border-[#5FD8E8]/20 hover:border-[#5FD8E8] text-[#8FA6BC] hover:text-white transition-colors z-20"
             >
-              <X className="w-5 h-5" />
+              <X className="w-4 h-4" />
             </button>
-            
+
             {status === "success" ? (
               <div className="text-center py-8">
-                <div className="w-16 h-16 bg-gradient-to-tr from-emerald-500 to-teal-400 rounded-2xl flex items-center justify-center mx-auto mb-5 shadow-[0_0_30px_rgba(16,185,129,0.4)] animate-bounce">
-                  <CheckCircle2 className="w-8 h-8 text-white" />
+                <div className="w-14 h-14 bg-[#5FD8E8]/10 border border-[#5FD8E8] rounded-xs flex items-center justify-center mx-auto mb-5 shadow-[0_0_30px_rgba(95,216,232,0.3)]">
+                  <CheckCircle2 className="w-7 h-7 text-[#5FD8E8]" />
                 </div>
-                <h3 className="text-2xl font-space font-bold mb-3 text-white">So&apos;rov qabul qilindi! 🎉</h3>
-                <p className="text-gray-300 max-w-sm mx-auto text-sm leading-relaxed">
-                  Rahmat, <span className="text-violet-400 font-semibold">{name}</span>! Mutaxassislarimiz {date} kuni uchrashuv yuzasidan siz bilan bog&apos;lanishadi.
+                <h3 className="text-2xl font-display font-black mb-3 text-[#EDF3F5]">
+                  {t("form.success")}
+                </h3>
+                <p className="text-[#8FA6BC] max-w-sm mx-auto text-xs font-mono leading-relaxed">
+                  Rahmat, <span className="text-[#5FD8E8] font-bold">{name}</span>! Mutaxassislarimiz {date || "bugun"} uchrashuv yuzasidan siz bilan bog'lanishadi va Telegram botga bildirishnoma bordi.
                 </p>
               </div>
             ) : (
               <div>
                 <div className="flex items-center gap-2 mb-2">
-                  <Sparkles className="w-4 h-4 text-violet-400" />
-                  <span className="text-sm uppercase font-bold tracking-widest text-violet-400 font-space">Bepul Maslahat va Audit</span>
+                  <Sparkles className="w-4 h-4 text-[#FF6B35]" />
+                  <span className="text-xs uppercase font-bold tracking-widest text-[#FF6B35] font-mono">
+                    BEPUL KONSULTATSIYA VA AUDIT
+                  </span>
                 </div>
-                <h2 className="text-3xl lg:text-4xl font-space font-bold mb-3 text-white">Raqamly bilan bog&apos;laning</h2>
-                <p className="text-gray-300 text-sm sm:text-base mb-6 leading-relaxed">
-                  Formani to&apos;ldiring. Biz loyihangizni tahlil qilib, eng optimal yechimni taqdim etamiz.
+                <h2 className="text-2xl lg:text-3xl font-display font-black mb-2 text-[#EDF3F5]">
+                  {t("form.title")}
+                </h2>
+                <p className="text-[#8FA6BC] text-xs mb-6 leading-relaxed">
+                  {t("form.subtitle")}
                 </p>
 
                 <form onSubmit={handleSubmit} className="space-y-4">
+                  
+                  {/* Honeypot field (hidden for users, catches bots) */}
+                  <input
+                    type="text"
+                    name="website_hp"
+                    value={honeypot}
+                    onChange={(e) => setHoneypot(e.target.value)}
+                    className="hidden"
+                    tabIndex={-1}
+                    autoComplete="off"
+                  />
+
                   {/* Name Input */}
                   <div>
-                    <label className="block text-sm font-semibold text-gray-200 uppercase tracking-wider mb-2 font-space">
-                      Ismingiz va Familiyangiz
+                    <label className="block text-xs font-mono font-bold text-[#8FA6BC] uppercase tracking-wider mb-1.5">
+                      {t("form.name")} *
                     </label>
                     <div className="relative">
-                      <User className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-                      <input 
+                      <User className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#8FA6BC]" />
+                      <input
                         type="text"
                         placeholder="Masalan: Alisher Navoiy"
                         value={name}
                         onChange={(e) => setName(e.target.value)}
-                        className="w-full h-13 pl-11 pr-4 rounded-xl border border-white/15 bg-slate-950/80 text-white placeholder-gray-400 focus:outline-none focus:border-violet-500 focus:ring-1 focus:ring-violet-500 transition-all text-base py-3"
+                        className="w-full h-11 pl-10 pr-4 rounded-xs border border-[#5FD8E8]/20 bg-[#0F2A4A] text-[#EDF3F5] placeholder-[#8FA6BC]/50 focus:outline-none focus:border-[#5FD8E8] transition-all text-xs font-sans"
                         required
                       />
                     </div>
@@ -124,17 +162,17 @@ export function ConsultationButton({ text = "Konsultatsiya olish", className = "
 
                   {/* Phone Input */}
                   <div>
-                    <label className="block text-sm font-semibold text-gray-200 uppercase tracking-wider mb-2 font-space">
-                      Telefon Raqamingiz
+                    <label className="block text-xs font-mono font-bold text-[#8FA6BC] uppercase tracking-wider mb-1.5">
+                      {t("form.phone")} *
                     </label>
                     <div className="relative">
-                      <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-                      <input 
+                      <Phone className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#8FA6BC]" />
+                      <input
                         type="tel"
                         placeholder="+998 90 123 45 67"
                         value={phone}
                         onChange={(e) => setPhone(e.target.value)}
-                        className="w-full h-13 pl-11 pr-4 rounded-xl border border-white/15 bg-slate-950/80 text-white placeholder-gray-400 focus:outline-none focus:border-violet-500 focus:ring-1 focus:ring-violet-500 transition-all text-base py-3"
+                        className="w-full h-11 pl-10 pr-4 rounded-xs border border-[#5FD8E8]/20 bg-[#0F2A4A] text-[#EDF3F5] placeholder-[#8FA6BC]/50 focus:outline-none focus:border-[#5FD8E8] transition-all text-xs font-sans"
                         required
                       />
                     </div>
@@ -142,36 +180,40 @@ export function ConsultationButton({ text = "Konsultatsiya olish", className = "
 
                   {/* Date Input */}
                   <div>
-                    <label className="block text-sm font-semibold text-gray-200 uppercase tracking-wider mb-2 font-space">
-                      Qulay uchrashuv sanasi
+                    <label className="block text-xs font-mono font-bold text-[#8FA6BC] uppercase tracking-wider mb-1.5">
+                      Qulay Sanani Tanlang
                     </label>
                     <div className="relative">
-                      <Calendar className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-                      <input 
+                      <Calendar className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#8FA6BC]" />
+                      <input
                         type="date"
                         value={date}
                         onChange={(e) => setDate(e.target.value)}
-                        className="w-full h-13 pl-11 pr-4 rounded-xl border border-white/15 bg-slate-950/80 text-white focus:outline-none focus:border-violet-500 focus:ring-1 focus:ring-violet-500 transition-all text-base py-3"
-                        required
+                        className="w-full h-11 pl-10 pr-4 rounded-xs border border-[#5FD8E8]/20 bg-[#0F2A4A] text-[#EDF3F5] focus:outline-none focus:border-[#5FD8E8] transition-all text-xs font-sans"
                       />
                     </div>
                   </div>
 
                   {status === "error" && (
-                    <div className="p-3 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-400 text-xs flex items-center gap-2">
-                      <AlertCircle className="w-4 h-4 flex-shrink-0" />
-                      <span>Xatolik yuz berdi. Server bilan aloqani tekshiring yoki qayta urining.</span>
+                    <div className="p-3 rounded-xs bg-[#E85A24]/10 border border-[#E85A24]/30 text-[#E85A24] text-xs flex items-center gap-2">
+                      <AlertCircle className="w-4 h-4 shrink-0" />
+                      <span>{t("form.error")}</span>
                     </div>
                   )}
 
-                  <button 
-                    type="submit" 
+                  <button
+                    type="submit"
                     disabled={loading}
-                    className="w-full h-14 mt-3 rounded-xl bg-gradient-to-r from-violet-600 via-pink-600 to-violet-700 hover:from-violet-500 hover:to-pink-500 text-white font-space font-bold text-lg flex items-center justify-center gap-2 transition-all shadow-[0_0_20px_rgba(139,92,246,0.35)] disabled:opacity-50 cursor-pointer"
+                    className="w-full h-12 mt-2 rounded-xs bg-[#FF6B35] hover:bg-[#E85A24] text-white font-display font-bold text-sm flex items-center justify-center gap-2 transition-all shadow-[0_0_20px_rgba(255,107,53,0.3)] disabled:opacity-50 cursor-pointer"
                   >
-                    {loading ? "Yuborilmoqda..." : "So'rovni Yuborish 🚀"}
-                    {!loading && <ArrowRight className="w-5 h-5" />}
+                    {loading ? t("form.sending") : t("form.submit")}
+                    {!loading && <ArrowRight className="w-4 h-4" />}
                   </button>
+
+                  <div className="flex items-center justify-center gap-2 text-[10px] font-mono text-[#8FA6BC] pt-2">
+                    <ShieldCheck className="w-3.5 h-3.5 text-[#5FD8E8]" />
+                    <span>Spam himoyasi va Telegram API xavfsizligi faol</span>
+                  </div>
                 </form>
               </div>
             )}

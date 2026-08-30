@@ -1,13 +1,14 @@
 import type { Metadata } from "next";
-import { Outfit, Inter, Fira_Code } from "next/font/google";
+import { Space_Grotesk, Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import { LanguageProvider } from "@/app/context/LanguageContext";
 
-const outfit = Outfit({
+const spaceGrotesk = Space_Grotesk({
   variable: "--font-display",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800", "900"],
+  weight: ["400", "500", "600", "700"],
   display: "swap",
 });
 
@@ -18,7 +19,7 @@ const inter = Inter({
   display: "swap",
 });
 
-const firaCode = Fira_Code({
+const jetbrainsMono = JetBrains_Mono({
   variable: "--font-mono",
   subsets: ["latin"],
   weight: ["400", "500", "700"],
@@ -26,15 +27,15 @@ const firaCode = Fira_Code({
 });
 
 export const metadata: Metadata = {
-  title: "Raqamly | Sirdaryo IT Kompaniyasi — Veb-sayt, Bot, CRM",
+  title: "Raqamly | Sirdaryo IT Kompaniyasi — Veb-sayt, Bot, CRM, AI",
   description:
-    "Sirdaryo va O'zbekiston bo'ylab yuqori sifatli veb-saytlar, AI Telegram botlar, ERP va CRM boshqaruv tizimlarini professional darajada yaratamiz. Bepul konsultatsiya oling!",
+    "Sirdaryo va O'zbekiston bo'ylab yuqori sifatli veb-saytlar, AI Telegram botlar, ERP va CRM boshqaruv tizimlarini professional darajada yaratamiz. Blueprint muhandislik yondashuvi va bepul konsultatsiya!",
   keywords:
-    "IT kompaniya, veb sayt yaratish, Telegram bot, ERP tizim, CRM, Sirdaryo, Raqamly, Guliston, Sun'iy intellekt, Next.js, raqamlashtirish",
+    "IT kompaniya, veb sayt yaratish, Telegram bot, ERP tizim, CRM, Sirdaryo, Raqamly, Guliston, Sun'iy intellekt, Next.js, blueprint, raqamlashtirish",
   openGraph: {
-    title: "Raqamly | Sirdaryo №1 IT Studio",
+    title: "Raqamly | Sirdaryo №1 IT Studio — Blueprint & AI",
     description:
-      "Biznesingizni zamonaviy texnologiyalar bilan yangi bosqichga olib chiqing. Veb-sayt, Bot, CRM — bitta jamoadan.",
+      "Biznesingizni zamonaviy muhandislik yechimlari bilan yangi bosqichga olib chiqing. Veb-sayt, Bot, CRM — bitta jamoadan.",
     type: "website",
     locale: "uz_UZ",
     url: "https://raqamly.uz",
@@ -64,7 +65,6 @@ export const metadata: Metadata = {
   },
 };
 
-// JSON-LD LocalBusiness Schema
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "LocalBusiness",
@@ -107,11 +107,13 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${outfit.variable} ${inter.variable} ${firaCode.variable} font-sans bg-[#0F2A4A] text-[#EDF3F5] min-h-screen flex flex-col antialiased`}
+        className={`${spaceGrotesk.variable} ${inter.variable} ${jetbrainsMono.variable} font-sans bg-[#0F2A4A] text-[#EDF3F5] min-h-screen flex flex-col antialiased selection:bg-[#E85A24] selection:text-white`}
       >
-        <Navbar />
-        <main className="flex-1">{children}</main>
-        <Footer />
+        <LanguageProvider>
+          <Navbar />
+          <main className="flex-1">{children}</main>
+          <Footer />
+        </LanguageProvider>
       </body>
     </html>
   );

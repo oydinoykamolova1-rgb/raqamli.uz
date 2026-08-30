@@ -11,7 +11,10 @@ export class AppController {
   }
 
   @Post('consultation')
-  scheduleConsultation(@Body() body: { date: string; name?: string; phone?: string }) {
+  scheduleConsultation(@Body() body: { date: string; name?: string; phone?: string; honeypot?: string }) {
+    if (body.honeypot) {
+      return { success: true, message: 'Spam detected' };
+    }
     return this.appService.scheduleConsultation(body.date, body.name, body.phone);
   }
 

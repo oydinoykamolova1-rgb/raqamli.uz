@@ -3,33 +3,27 @@
 import Link from "next/link";
 import { Bot, Mail, MapPin, Phone, ArrowUp } from "lucide-react";
 import { usePathname } from "next/navigation";
+import { useLanguage } from "@/app/context/LanguageContext";
 
 export function Footer() {
   const pathname = usePathname();
+  const { t } = useLanguage();
 
   const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
 
-  // Hide public site footer on admin pages
   if (pathname?.startsWith("/admin")) return null;
 
   const year = new Date().getFullYear();
 
   return (
     <footer className="relative bg-[#0A1E35] border-t border-[#5FD8E8]/10 pt-16 pb-10 overflow-hidden">
-
-      {/* Blueprint grid */}
-      <div className="absolute inset-0 cyber-grid opacity-30 pointer-events-none" />
-      {/* Ambient glow */}
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[500px] h-[200px] bg-[#5FD8E8]/5 rounded-full blur-[100px] pointer-events-none" />
-
       <div className="container mx-auto px-4 lg:px-12 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-14">
 
           {/* Brand Col */}
           <div className="lg:col-span-2 space-y-5">
-            {/* Logo */}
             <Link href="/" className="inline-flex items-center gap-3 group" id="footer-logo">
-              <div className="w-10 h-10 rounded-full border border-[#5FD8E8]/35 flex items-center justify-center bg-[#0F2A4A] group-hover:border-[#5FD8E8] transition-colors">
+              <div className="w-10 h-10 rounded-sm border border-[#5FD8E8]/35 flex items-center justify-center bg-[#0F2A4A] group-hover:border-[#5FD8E8] transition-colors">
                 <span className="font-display font-black text-xl text-[#5FD8E8] leading-none">R</span>
               </div>
               <div>
@@ -37,17 +31,15 @@ export function Footer() {
                   Raqam<span className="text-[#5FD8E8]">ly</span>
                 </span>
                 <span className="font-mono text-[9px] uppercase tracking-[0.2em] text-[#8FA6BC] block -mt-0.5">
-                  SIRDARYO IT
+                  STUDIO & AI
                 </span>
               </div>
             </Link>
 
             <p className="font-sans text-sm text-[#8FA6BC] leading-relaxed max-w-sm">
-              Sirdaryo viloyati va O&apos;zbekiston miqyosida biznes jarayonlarini
-              to&apos;liq raqamlashtirish — veb-saytlar, AI Telegram botlar va CRM/ERP tizimlar.
+              Sirdaryo viloyati va O'zbekiston miqyosida biznes jarayonlarini to'liq raqamlashtirish — veb-saytlar, AI Telegram botlar va CRM/ERP tizimlar.
             </p>
 
-            {/* Telegram Bot */}
             <Link
               href="https://t.me/raqamli_uzbot"
               target="_blank"
@@ -60,26 +52,26 @@ export function Footer() {
               <span className="text-[#5FD8E8]/40">→</span>
             </Link>
 
-            {/* Coordinate stamp */}
             <div className="font-mono text-[10px] text-[#8FA6BC]/40 uppercase tracking-widest">
-              N40°29&apos; E68°47&apos; · SIRDARYO VILOYATI
+              N40°29' E68°47' · GULISTON IT LIVE
             </div>
           </div>
 
-          {/* Quick Links */}
+          {/* Nav Links */}
           <div>
-            <h4 className="font-mono text-[10px] text-[#5FD8E8] uppercase tracking-[0.2em] mb-5 flex items-center gap-2">
+            <h4 className="font-mono text-[10px] text-[#5FD8E8] uppercase tracking-[0.2em] mb-5 flex items-center gap-2 font-bold">
               <span className="w-3 h-px bg-[#5FD8E8]/50 inline-block" />
               Sahifalar
             </h4>
             <ul className="space-y-3">
               {[
-                { href: "/",          label: "Bosh sahifa" },
-                { href: "/#services",  label: "Xizmatlar" },
-                { href: "/#portfolio", label: "Portfolio" },
-                { href: "/#about",     label: "Nega Biz?" },
-                { href: "/#calculator",label: "Kalkulyator" },
-                { href: "/#faq",       label: "FAQ" },
+                { href: "/#services", label: t("nav.services") },
+                { href: "/#portfolio", label: t("nav.portfolio") },
+                { href: "/#calculator", label: t("nav.calculator") },
+                { href: "/#pricing", label: t("nav.pricing") },
+                { href: "/#team", label: t("nav.team") },
+                { href: "/#tech", label: t("nav.tech") },
+                { href: "/#location", label: t("nav.location") },
               ].map((l) => (
                 <li key={l.href}>
                   <Link
@@ -96,15 +88,15 @@ export function Footer() {
 
           {/* Contact Info */}
           <div>
-            <h4 className="font-mono text-[10px] text-[#FF6B35] uppercase tracking-[0.2em] mb-5 flex items-center gap-2">
+            <h4 className="font-mono text-[10px] text-[#FF6B35] uppercase tracking-[0.2em] mb-5 flex items-center gap-2 font-bold">
               <span className="w-3 h-px bg-[#FF6B35]/50 inline-block" />
-              Bog&apos;lanish
+              Bog'lanish
             </h4>
             <ul className="space-y-4 text-sm">
               <li className="flex items-start gap-3 text-[#8FA6BC]">
-                <MapPin className="w-3.5 h-3.5 text-[#5FD8E8] mt-0.5 flex-shrink-0" />
+                <MapPin className="w-3.5 h-3.5 text-[#5FD8E8] mt-0.5 shrink-0" />
                 <span className="font-sans text-xs leading-relaxed">
-                  Sirdaryo viloyati, Guliston shahri, IT Live binosi
+                  {t("footer.address")}
                 </span>
               </li>
               <li>
@@ -112,7 +104,7 @@ export function Footer() {
                   href="tel:+998901234567"
                   className="flex items-center gap-3 text-[#8FA6BC] hover:text-[#5FD8E8] transition-colors font-mono text-xs"
                 >
-                  <Phone className="w-3.5 h-3.5 text-[#5FD8E8] flex-shrink-0" />
+                  <Phone className="w-3.5 h-3.5 text-[#5FD8E8] shrink-0" />
                   +998 90 123 45 67
                 </a>
               </li>
@@ -121,7 +113,7 @@ export function Footer() {
                   href="mailto:info@raqamly.uz"
                   className="flex items-center gap-3 text-[#8FA6BC] hover:text-[#FF6B35] transition-colors font-mono text-xs"
                 >
-                  <Mail className="w-3.5 h-3.5 text-[#FF6B35] flex-shrink-0" />
+                  <Mail className="w-3.5 h-3.5 text-[#FF6B35] shrink-0" />
                   info@raqamly.uz
                 </a>
               </li>
@@ -129,23 +121,20 @@ export function Footer() {
           </div>
         </div>
 
-        {/* Bottom bar */}
+        {/* Bottom Bar */}
         <div className="pt-8 border-t border-[#5FD8E8]/10 flex flex-col md:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-6">
-            <span className="font-mono text-[10px] text-[#8FA6BC]/50 uppercase tracking-wider">
-              © {year} Raqamly. Barcha huquqlar himoyalangan.
-            </span>
-          </div>
+          <span className="font-mono text-[10px] text-[#8FA6BC]/50 uppercase tracking-wider">
+            © {year} Raqamly IT Studio. {t("footer.rights")}
+          </span>
 
           <div className="flex items-center gap-4">
             <span className="font-mono text-[10px] text-[#8FA6BC]/40 uppercase tracking-wider">
-              Made with ♥ in Sirdaryo
+              Blueprint Architecture System v2.6
             </span>
-            {/* Scroll to top */}
             <button
               id="footer-scroll-top"
               onClick={scrollToTop}
-              className="w-8 h-8 rounded-sm border border-[#5FD8E8]/20 flex items-center justify-center text-[#5FD8E8]/50 hover:text-[#5FD8E8] hover:border-[#5FD8E8]/50 transition-all cursor-pointer"
+              className="w-8 h-8 rounded-sm border border-[#5FD8E8]/20 flex items-center justify-center text-[#5FD8E8]/50 hover:text-[#5FD8E8] hover:border-[#5FD8E8] transition-all cursor-pointer"
               title="Yuqoriga"
             >
               <ArrowUp className="w-3.5 h-3.5" />
