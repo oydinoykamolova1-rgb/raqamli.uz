@@ -33,7 +33,7 @@ export function TeamSection() {
       role: "Senior AI & Automation Engineer",
       specialty: "Python, Telegraf, Open AI / Custom LLM, ERP Integration",
       exp: "3+ Yil Tajriba",
-      avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=600&q=80",
+      avatar: "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=600&q=80",
       skills: ["AI Chatbots", "Python", "Process Automation", "FastAPI"],
       icon: <Cpu className="w-5 h-5 text-[#E85A24]" />,
     },
